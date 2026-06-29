@@ -31,4 +31,4 @@ A cryptographic signature validation dashboard for blockchain hash logging. It v
 ---
 
 ## License
-This project is proprietary and confidential. Property of Humanity Co.
+This project is proprietary and confidential. 
