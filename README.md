@@ -1,5 +1,5 @@
 # WaveHash Blockchain Signing Dashboard
-
+Naive Hashing Technique
 A cryptographic signature validation dashboard for blockchain hash logging. It verfies transaction hashes and displays pending block authorization requests.
 
 ---
