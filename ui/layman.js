@@ -87,10 +87,17 @@ function resetState() {
     if (currentMsg.length > 0) {
         nextLetterBtn.disabled = false;
         nextLetterBtn.textContent = 'Drop Letter 1';
+        // Immediately drop the first letter so Step 1 and Step 2 UI populate!
+        dropNextLetter();
     }
     
     drawGrid();
 }
+
+// Add enter key support
+rawInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') resetState();
+});
 
 function dropNextLetter() {
     if (charIdx >= currentMsg.length) return;
