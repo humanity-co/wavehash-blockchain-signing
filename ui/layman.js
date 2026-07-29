@@ -181,7 +181,6 @@ function stepMathRipple() {
 
 // EVENT LISTENERS
 startBtn.addEventListener('click', resetState);
-nextLetterBtn.addEventListener('click', dropNextLetter);
 stepMathBtn.addEventListener('click', stepMathRipple);
 
 // INIT
