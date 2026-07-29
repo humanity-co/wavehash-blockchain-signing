@@ -60,8 +60,9 @@ function drawGrid() {
 function extractHash() {
     let hashStr = "0x";
     for (let i = 0; i < 20; i++) {
-        const val = grid[(i * 7) % (GRID_SIZE * GRID_SIZE)];
-        hashStr += val.toString(16).padStart(8, '0').slice(0, 2);
+        // Take a cell value, modulo 256 to fit in a byte, and pad it to 2 characters
+        const val = grid[(i * 7) % (GRID_SIZE * GRID_SIZE)] % 256;
+        hashStr += val.toString(16).padStart(2, '0');
     }
     return hashStr;
 }
