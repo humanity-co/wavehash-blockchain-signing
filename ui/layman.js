@@ -7,7 +7,6 @@ const ctx = canvas.getContext('2d');
 
 const rawInput = document.getElementById('rawInput');
 const startBtn = document.getElementById('startBtn');
-const nextLetterBtn = document.getElementById('nextLetterBtn');
 const stepMathBtn = document.getElementById('stepMathBtn');
 
 const charDisplay = document.getElementById('charDisplay');
@@ -22,6 +21,7 @@ let nextGrid = new Uint32Array(GRID_SIZE * GRID_SIZE);
 let currentMsg = "";
 let charIdx = 0;
 let rippleSteps = 0;
+let dropInterval;
 const MAX_RIPPLES = 5;
 
 // Draw the grid with numbers explicitly shown inside
@@ -71,10 +71,13 @@ function extractHash() {
 // ---------------------------------------------------------
 
 function resetState() {
+    clearInterval(dropInterval);
     grid.fill(0);
     charIdx = 0;
     rippleSteps = 0;
     currentMsg = rawInput.value;
+    
+    if (currentMsg.length === 0) return;
     
     conversionBox.style.display = 'flex';
     charDisplay.innerHTML = 'Waiting...';
@@ -83,15 +86,17 @@ function resetState() {
     hashOutput.innerText = '0x...';
     
     startBtn.disabled = true;
-    
-    if (currentMsg.length > 0) {
-        nextLetterBtn.disabled = false;
-        nextLetterBtn.textContent = 'Drop Letter 1';
-        // Immediately drop the first letter so Step 1 and Step 2 UI populate!
-        dropNextLetter();
-    }
+    rawInput.disabled = true;
+    stepMathBtn.disabled = true;
     
     drawGrid();
+
+    // Start auto-drop
+    dropInterval = setInterval(() => {
+        dropNextLetter();
+    }, 1500);
+    
+    dropNextLetter(); // Drop first one immediately
 }
 
 // Add enter key support
@@ -100,7 +105,12 @@ rawInput.addEventListener('keypress', (e) => {
 });
 
 function dropNextLetter() {
-    if (charIdx >= currentMsg.length) return;
+    if (charIdx >= currentMsg.length) {
+        clearInterval(dropInterval);
+        stepMathBtn.disabled = false;
+        charExplainer.innerText = "All letters are in the pool! Now, watch them ripple.";
+        return;
+    }
     
     const char = currentMsg[charIdx];
     const ascii = char.charCodeAt(0);
@@ -124,15 +134,6 @@ function dropNextLetter() {
     ctx.strokeRect(targetX * CELL_SIZE, targetY * CELL_SIZE, CELL_SIZE, CELL_SIZE);
     
     charIdx++;
-    
-    if (charIdx < currentMsg.length) {
-        nextLetterBtn.textContent = `Drop Letter ${charIdx + 1}`;
-    } else {
-        nextLetterBtn.disabled = true;
-        nextLetterBtn.textContent = 'All Letters Dropped!';
-        stepMathBtn.disabled = false;
-        charExplainer.innerText = "All letters are in the pool! Now, watch them ripple.";
-    }
 }
 
 function stepMathRipple() {
