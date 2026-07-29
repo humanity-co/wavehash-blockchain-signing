@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WaveCrypt - Interactive Hash Visualizer</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Space+Mono:ital,wght@0,400;0,700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main class="pipeline-container">
+        <!-- Header -->
+        <header class="top-bar" style="display:flex; justify-content:space-between; align-items:center;">
+            <h1>WaveCrypt <span>v2.0 // Classic Physics Engine</span></h1>
+            <div style="display:flex; gap: 15px; align-items:center;">
+                <a href="layman.html" class="action-btn" style="text-decoration:none; font-size:0.8rem; padding: 5px 10px; background:transparent; border:1px solid var(--accent-orange); color:var(--accent-orange);">EDUCATIONAL MODE</a>
+                <div class="status-indicator">SYSTEM ONLINE</div>
+            </div>
+        </header>
+
+        <div class="pipeline-grid">
+            <!-- Stage 1: Input -->
+            <section class="panel stage-input">
+                <div class="panel-header">STAGE 1: INPUT</div>
+                <div class="panel-content">
+                    <p class="description">Enter payload to inject energy into the Toroidal Grid.</p>
+                    <textarea id="messageInput" placeholder="> Enter data here..." rows="3"></textarea>
+                    <button id="hashBtn" class="action-btn">INITIALIZE HASH</button>
+                    <button id="resetBtn" class="action-btn secondary">RESET</button>
+                </div>
+            </section>
+
+            <!-- Stage 2: Simulation -->
+            <section class="panel stage-sim">
+                <div class="panel-header" style="display:flex; justify-content:space-between; align-items:center;">
+                    <span>STAGE 2: TOROIDAL FLUID DYNAMICS</span>
+                    <div class="view-toggles" style="display:flex; gap:5px; flex-wrap: wrap; justify-content: flex-end;">
+                        <button class="view-btn active" data-mode="fluid">Fluid</button>
+                        <button class="view-btn" data-mode="rubik">Rubik's</button>
+                        <button class="view-btn" data-mode="ripple">Ripple</button>
+                        <button class="view-btn" data-mode="vector">Vector</button>
+                        <button class="view-btn" data-mode="topo">3D Topo</button>
+                        <button class="view-btn" data-mode="matrix">Matrix</button>
+                    </div>
+                </div>
+                <div class="canvas-wrapper" style="position: relative; width: 100%; aspect-ratio: 1/1; background: #000; border-bottom: 1px solid var(--border-color); overflow: hidden;">
+                    <!-- Background canvas for sharp geometric grids -->
+                    <canvas id="bgCanvas" width="500" height="500" style="position: absolute; top:0; left:0; width:100%; height:100%; z-index: 1;"></canvas>
+                    
+                    <!-- Foreground canvas for filtered effects -->
+                    <div id="fluidContainer" style="position: absolute; top:0; left:0; width:100%; height:100%; z-index: 2; filter: contrast(30);">
+                        <canvas id="gridCanvas" width="500" height="500" style="width:100%; height:100%; filter: blur(8px);"></canvas>
+                    </div>
+                </div>
+                <div class="sim-stats">
+                    <span id="gridStatus">Idle</span>
+                    <span id="roundCount">0 / 25 Rounds</span>
+                </div>
+            </section>
+
+            <!-- Educational Pipeline Panel (Telemetry Log) -->
+            <section class="panel stage-edu">
+                <div class="panel-header">TELEMETRY LOG</div>
+                <div class="panel-content" style="padding: 0;">
+                    <ul id="telemetryLog" class="mono-text" style="list-style: none; overflow-y: auto; max-height: 520px; padding: 20px; margin: 0; display: flex; flex-direction: column; gap: 15px;">
+                        <li class="log-entry">
+                            <strong style="color: var(--accent-blue);">[SYSTEM INIT]</strong><br>
+                            The physics engine is standing by. The grid combines rigid geometric structure with organic fluid mechanics to compute chaotic diffusion.
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Stage 3: Output & Decrypt -->
+            <section class="panel stage-output">
+                <div class="panel-header">STAGE 3: CRYPTOGRAPHIC HASH</div>
+                <div class="panel-content">
+                    <div class="hash-box">
+                        <code id="hashOutput">--</code>
+                        <button id="copyBtn" class="icon-btn" disabled>Copy</button>
+                    </div>
+                </div>
+                
+                <div class="panel-header" style="margin-top: 20px;">STAGE 4: DECRYPTION (RAINBOW TABLE)</div>
+                <div class="panel-content">
+                    <p class="description">Hashes are one-way functions and cannot be decrypted mathematically. However, eavesdroppers use "Rainbow Tables" (huge dictionaries of known hashes) to reverse them. Test it below.</p>
+                    <div class="decrypt-group">
+                        <input type="text" id="decryptInput" placeholder="Paste 256-bit hash here..." />
+                        <button id="decryptBtn" class="action-btn">DECRYPT</button>
+                    </div>
+                    <div id="decryptResult" class="mono-text" style="margin-top: 15px; color: var(--accent-amber);">--</div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="engine.js"></script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+Initiating Hack Sequence...
+
+--- Avalanche Effect Test ---
+Goal: Changing 1 character should change ~50% (128) of the bits.
+Base Msg : 'Hello, WaveCrypt! This is a test.'
+Hash 1   : 0d35fe80baff4f147b97f3b647578fdf...
+Mod Msg  : 'Iello, WaveCrypt! This is a test.'
+Hash 2   : 24a52a2cd2f482409a9a13b97c6e4362...
+
+Bits flipped: 120 out of 256 (46.88%)
+Result: PASS (Excellent Avalanche)
+
+--- Collision (Birthday) Attack ---
+Goal: Find two different strings that produce the SAME hash.
+Testing 2,500 random strings...
+  ... tried 500 hashes
+  ... tried 1000 hashes
+  ... tried 1500 hashes
+  ... tried 2000 hashes
+Result: PASS (No full collisions found in 100k attempts)
+
+Testing 16-bit truncated collisions (Checking for structural weakness)...
+Found 45 truncated collisions. (This is expected in short lengths).

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WaveCrypt - Layman's Explanation</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .layman-layout {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 700px;
+            margin: 40px auto;
+            gap: 20px;
+        }
+        .layman-step {
+            display: flex;
+            gap: 20px;
+            width: 100%;
+        }
+        .step-number {
+            flex-shrink: 0;
+            width: 50px;
+            height: 50px;
+            background: var(--primary-color);
+            color: #000;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            box-shadow: 0 0 15px rgba(255, 170, 0, 0.4);
+        }
+        .step-content {
+            flex-grow: 1;
+        }
+        .layman-text {
+            font-size: 1rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+        .flow-arrow {
+            font-size: 2rem;
+            color: var(--primary-color);
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
+        }
+    </style>
+</head>
+<body>
+    <main class="pipeline-container">
+        <!-- HEADER -->
+        <header class="top-bar" style="display:flex; justify-content:space-between; align-items:center;">
+            <h1>WaveCrypt <span>v2.0 // Educational Mode</span></h1>
+            <a href="index.html" class="action-btn" style="text-decoration:none;">RETURN TO PRO MODE</a>
+        </header>
+
+        <!-- LAYMAN WATERFALL LAYOUT -->
+        <div class="layman-layout">
+            
+            <!-- STEP 1: INPUT -->
+            <div class="layman-step">
+                <div class="step-number">1</div>
+                <div class="step-content panel">
+                    <div class="panel-header">STEP 1: EXTRACT THE DIGITAL DNA</div>
+                    <p class="layman-text">Everything you type—whether it's a single word or an entire book—contains hidden digital "DNA." Type a message below to extract its DNA.</p>
+                    <input type="text" id="rawInput" placeholder="Type a message to hash..." autocomplete="off">
+                    <button id="hashBtn" class="btn primary-btn" style="width: 100%; margin-top: 10px;">Extract Digital DNA!</button>
+                </div>
+            </div>
+
+            <!-- ANIMATED ARROW DOWN -->
+            <div class="flow-arrow">▼</div>
+
+            <!-- STEP 2: SIMULATION -->
+            <div class="layman-step">
+                <div class="step-number">2</div>
+                <div class="step-content panel">
+                    <div class="panel-header">STEP 2: THE CENTRIFUGE SCRAMBLER</div>
+                    <p class="layman-text">We take your message's digital DNA and drop it into this high-speed centrifuge. It violently spins, splits, and mixes the DNA together in a chaotic web. Once it starts spinning, it is mathematically impossible to put the original pieces back together.</p>
+                    
+                    <div class="canvas-wrapper" style="position: relative; width: 100%; max-width:400px; margin: 0 auto; aspect-ratio: 1/1; background: #000; border: 1px solid var(--border-color); overflow: hidden;">
+                        <div id="fluidContainer" style="width:100%; height:100%; filter: contrast(30); background: #000;">
+                            <canvas id="gridCanvas" width="400" height="400" style="width:100%; height:100%; filter: blur(8px);"></canvas>
+                        </div>
+                        <canvas id="bgCanvas" width="400" height="400" style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none;"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ANIMATED ARROW DOWN -->
+            <div class="flow-arrow">▼</div>
+
+            <!-- STEP 3: OUTPUT -->
+            <div class="layman-step">
+                <div class="step-number">3</div>
+                <div class="step-content panel">
+                    <div class="panel-header">STEP 3: THE FINAL FINGERPRINT</div>
+                    <p class="layman-text">When the spinning stops, what comes out is a unique fingerprint. Even changing just one tiny letter in your message completely changes the entire fingerprint! This proves exactly what your message was, without revealing the actual words.</p>
+                    <div class="hash-display">
+                        <div class="hash-label">RESULTING HASH</div>
+                        <div id="hashOutput" class="hash-value">0x0000000000000000000000000000000000000000</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+    
+    <script src="layman.js"></script>
+</body>
+</html>

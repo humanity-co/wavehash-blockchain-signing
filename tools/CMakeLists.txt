@@ -1,0 +1,5 @@
+add_executable(wavehash_cli wavehash_cli.cpp)
+target_link_libraries(wavehash_cli PRIVATE wavecrypt wavecrypt_core)
+
+add_executable(hack_wavecrypt hack_wavecrypt.cpp)
+target_link_libraries(hack_wavecrypt PRIVATE wavecrypt wavecrypt_core)

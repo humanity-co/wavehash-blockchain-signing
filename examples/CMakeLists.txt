@@ -1,0 +1,2 @@
+add_executable(visualize_grid visualize_grid.cpp)
+target_link_libraries(visualize_grid PRIVATE wavecrypt wavecrypt_core)
