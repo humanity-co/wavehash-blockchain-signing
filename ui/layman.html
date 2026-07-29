@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WaveCrypt - Layman's Explanation</title>
+    <title>WaveCrypt - Educational Visualizer</title>
     <link rel="stylesheet" href="styles.css">
     <style>
         .layman-layout {
             display: flex;
             flex-direction: column;
             align-items: center;
-            max-width: 700px;
+            max-width: 800px;
             margin: 40px auto;
             gap: 20px;
         }
@@ -52,6 +52,43 @@
             40% {transform: translateY(-10px);}
             60% {transform: translateY(-5px);}
         }
+
+        /* NEW VISUALIZER STYLES */
+        .interactive-box {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            text-align: center;
+            min-height: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .char-breakdown {
+            font-family: 'Space Mono', monospace;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+        .char-breakdown span {
+            color: #0ff; /* cyan for ascii number */
+        }
+        .grid-visualizer {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            aspect-ratio: 1/1;
+            background: #050505;
+            border: 2px solid var(--border-color);
+        }
+        .action-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
     </style>
 </head>
 <body>
@@ -65,32 +102,22 @@
         <!-- LAYMAN WATERFALL LAYOUT -->
         <div class="layman-layout">
             
-            <!-- STEP 1: INPUT -->
+            <!-- STEP 1: INPUT & CONVERSION -->
             <div class="layman-step">
                 <div class="step-number">1</div>
                 <div class="step-content panel">
-                    <div class="panel-header">STEP 1: EXTRACT THE DIGITAL DNA</div>
-                    <p class="layman-text">Everything you type—whether it's a single word or an entire book—contains hidden digital "DNA." Type a message below to extract its DNA.</p>
-                    <input type="text" id="rawInput" placeholder="Type a message to hash..." autocomplete="off">
-                    <button id="hashBtn" class="btn primary-btn" style="width: 100%; margin-top: 10px;">Extract Digital DNA!</button>
-                </div>
-            </div>
-
-            <!-- ANIMATED ARROW DOWN -->
-            <div class="flow-arrow">▼</div>
-
-            <!-- STEP 2: SIMULATION -->
-            <div class="layman-step">
-                <div class="step-number">2</div>
-                <div class="step-content panel">
-                    <div class="panel-header">STEP 2: THE CENTRIFUGE SCRAMBLER</div>
-                    <p class="layman-text">We take your message's digital DNA and drop it into this high-speed centrifuge. It violently spins, splits, and mixes the DNA together in a chaotic web. Once it starts spinning, it is mathematically impossible to put the original pieces back together.</p>
+                    <div class="panel-header">STEP 1: THE SECRET NUMBERS</div>
+                    <p class="layman-text">Computers don't understand letters like "A" or "B". They only understand numbers. When you type a word, the computer instantly converts every letter into a secret number code (called ASCII).</p>
                     
-                    <div class="canvas-wrapper" style="position: relative; width: 100%; max-width:400px; margin: 0 auto; aspect-ratio: 1/1; background: #000; border: 1px solid var(--border-color); overflow: hidden;">
-                        <div id="fluidContainer" style="width:100%; height:100%; filter: contrast(30); background: #000;">
-                            <canvas id="gridCanvas" width="400" height="400" style="width:100%; height:100%; filter: blur(8px);"></canvas>
-                        </div>
-                        <canvas id="bgCanvas" width="400" height="400" style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none;"></canvas>
+                    <input type="text" id="rawInput" placeholder="Type a short word..." autocomplete="off" maxlength="10">
+                    
+                    <div class="action-row">
+                        <button id="startBtn" class="btn primary-btn" style="flex:1;">Start the Process</button>
+                    </div>
+
+                    <div id="conversionBox" class="interactive-box" style="display:none; margin-top: 15px;">
+                        <div class="char-breakdown" id="charDisplay">Waiting...</div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 5px;" id="charExplainer"></div>
                     </div>
                 </div>
             </div>
@@ -98,15 +125,53 @@
             <!-- ANIMATED ARROW DOWN -->
             <div class="flow-arrow">▼</div>
 
-            <!-- STEP 3: OUTPUT -->
+            <!-- STEP 2: MAPPING -->
+            <div class="layman-step">
+                <div class="step-number">2</div>
+                <div class="step-content panel">
+                    <div class="panel-header">STEP 2: FINDING A TARGET COORDINATE</div>
+                    <p class="layman-text">Now that we have a number, where do we drop it? The math calculates a specific (X, Y) coordinate on our grid so that every letter falls into a totally different spot.</p>
+                    
+                    <div id="mappingBox" class="interactive-box">
+                        <div class="char-breakdown" id="coordDisplay">Grid Target: (X: ?, Y: ?)</div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 5px;">This is exactly where the number will drop.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ANIMATED ARROW DOWN -->
+            <div class="flow-arrow">▼</div>
+
+            <!-- STEP 3: THE DROP AND RIPPLE -->
             <div class="layman-step">
                 <div class="step-number">3</div>
                 <div class="step-content panel">
-                    <div class="panel-header">STEP 3: THE FINAL FINGERPRINT</div>
-                    <p class="layman-text">When the spinning stops, what comes out is a unique fingerprint. Even changing just one tiny letter in your message completely changes the entire fingerprint! This proves exactly what your message was, without revealing the actual words.</p>
+                    <div class="panel-header">STEP 3: THE ENERGY DROP</div>
+                    <p class="layman-text">Watch what happens when the number hits the grid! It creates a splash, and that energy (the number) ripples out, adding to its neighbors. The more letters you add, the more it scrambles!</p>
+                    
+                    <div class="grid-visualizer">
+                        <canvas id="slowGridCanvas" width="400" height="400" style="width:100%; height:100%;"></canvas>
+                    </div>
+
+                    <div class="action-row">
+                        <button id="nextLetterBtn" class="action-btn" style="flex:1;" disabled>Drop Next Letter</button>
+                        <button id="stepMathBtn" class="action-btn" style="flex:1;" disabled>Step the Math (Ripple)</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ANIMATED ARROW DOWN -->
+            <div class="flow-arrow">▼</div>
+
+            <!-- STEP 4: OUTPUT -->
+            <div class="layman-step">
+                <div class="step-number">4</div>
+                <div class="step-content panel">
+                    <div class="panel-header">STEP 4: THE FINAL HASH</div>
+                    <p class="layman-text">Once all letters are dropped and the ripples stop, we simply read the numbers left over in the grid from top to bottom. That scrambled string of numbers is your final hash!</p>
                     <div class="hash-display">
                         <div class="hash-label">RESULTING HASH</div>
-                        <div id="hashOutput" class="hash-value">0x0000000000000000000000000000000000000000</div>
+                        <div id="hashOutput" class="hash-value">0x...</div>
                     </div>
                 </div>
             </div>
